@@ -99,7 +99,11 @@ class ODFReader(BaseExcelReader):
 
         table: list[list[Scalar]] = []
 
-        for sheet_row in sheet_rows:
+        for row_number, sheet_row in enumerate(sheet_rows):
+
+            if(isinstance(sheet.nrow_count,int) and row_number >= sheet.nrow_count):
+                break
+
             sheet_cells = [x for x in sheet_row.childNodes if x.qname in cell_names]
             empty_cells = 0
             table_row: list[Scalar] = []
