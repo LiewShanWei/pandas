@@ -102,6 +102,9 @@ class XlrdReader(BaseExcelReader):
 
         data = []
 
+        if(isinstance(sheet.nrow_count,int)):
+            sheet.nrows = sheet.nrow_count
+
         for i in range(sheet.nrows):
             row = [
                 _parse_cell(value, typ)
