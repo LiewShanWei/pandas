@@ -635,6 +635,21 @@ class BaseExcelReader(metaclass=abc.ABCMeta):
             else:  # assume an integer if not a string
                 sheet = self.get_sheet_by_index(asheetname)
 
+            # Store number of rows to read as nrow_count
+            sheet.nrow_count = None
+            if isinstance(nrows, int):
+                sheet.nrow_count = nrows
+
+                if isinstance(header, int):
+                    sheet.nrow_count += header +1
+                elif header is not None:
+                    sheet.nrow_count += max(header)
+
+                if isinstance(skiprows, int):
+                    sheet.nrow_count += skiprows
+                elif skiprows is not None:
+                    sheet.nrow_count += len(skiprows)
+
             data = self.get_sheet_data(sheet, convert_float)
             if hasattr(sheet, "close"):
                 # pyxlsb opens two TemporaryFiles
