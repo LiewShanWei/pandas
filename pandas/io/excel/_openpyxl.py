@@ -573,6 +573,9 @@ class OpenpyxlReader(BaseExcelReader):
         data: list[list[Scalar]] = []
         last_row_with_data = -1
         for row_number, row in enumerate(sheet.rows):
+            if(isinstance(sheet.nrow_count,int) and row_number >= sheet.nrow_count):
+                break
+
             converted_row = [self._convert_cell(cell, convert_float) for cell in row]
             while converted_row and converted_row[-1] == "":
                 # trim trailing empty elements
